@@ -384,6 +384,7 @@ private:
 public:
 	RotateLaser(const line_t &_line,double _b,double _e,double _d):Laser(_line),dirbeg(tocircle(_b)),dirend(tocircle(_e)),dirdelta(_d/Map::Gamefps){
 		if(dirbeg>dirend)	swap(dirbeg,dirend);
+		getlaser().direct+=dirdelta/10;
 	}
 	RotateLaser(const Laser &laser):Laser(laser),dirbeg(laser.getlaser().direct),dirend(dirbeg),dirdelta(0){}
 	virtual ~RotateLaser(){}
@@ -412,7 +413,7 @@ public:
 public:
 	static constexpr const double move_speed=5.0;
 public:
-	Player():Point(makepoint(90,Map::ScreenHeight/2.0),20){Map::basex=Map::basey=0;}
+	Player():Point(makepoint(90,Map::ScreenHeight/2.0),20){}
 //	Player():Point(makepoint(2000,Map::ScreenHeight/2.0),20){Map::basex=-getpos().x+Map::ScreenWidth/3.0;}//test
 	virtual ~Player(){}
 	void move(int dx,int dy){
@@ -420,11 +421,14 @@ public:
 			Map::basex-=dx;
 //			Map::basey+=dy;
 		}
+//		if(getpos().y>=Map::ScreenHeight*5.0/6 || getpos().y<=Map::ScreenHeight*1.0/6){
+//			Map::basey-=dy;
+//		}
 		getpos().x+=dx;
 		getpos().y+=dy;
 	}
 	void move(const key_msg &msg){
-		if(msg.msg&key_msg_down){
+//		if(msg.msg&key_msg_down){
 			if(msg.key==key_left || msg.key==key_A ){
 				//左
 				move(-move_speed,0);
@@ -441,8 +445,22 @@ public:
 				//下
 				move(0,move_speed);
 			}
-		}
-		
+//		}
 	}
 };
+struct leveldata{
+	string levelname;
+	int MapLength;
+	vector<Laser *> lasers;
+	vector<Point> points;
+};
+leveldata makelevel(const string &_name,const int &l,const vector<Laser *> &ls,const vector<Point> &ps){
+	return leveldata({_name,l,ls,ps});
+}
+template<typename T>
+void registers(vector<Laser *> &lasers,vector<T> &_add){
+	for(auto &sth:_add){
+		lasers.push_back(&sth);
+	}
+}
 #endif

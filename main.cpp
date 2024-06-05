@@ -4,10 +4,11 @@
 #include "level2.cpp"
 #include "level3.cpp"
 #include "level4.cpp"
+#include "level5.cpp"
 using namespace std;
-constexpr int maxlevel=4;
-constexpr int MapLength[]={0,3400,3700,3000,3000};
-pair<vector<Laser *>,vector<Point>> getgamedata(int id){
+constexpr int maxlevel=5;
+constexpr int MapLength[]={0,3400,3700,3000,3000,3400};
+leveldata getgamedata(int id){
 	switch(id){
 	case 1:
 		return Level1::getgamedata();
@@ -17,8 +18,10 @@ pair<vector<Laser *>,vector<Point>> getgamedata(int id){
 		return Level3::getgamedata();
 	case 4:
 		return Level4::getgamedata();
+	case 5:
+		return Level5::getgamedata();
 	}
-	return make_pair(vector<Laser *>(),vector<Point>());
+	return makelevel("default",0,vector<Laser *>(),vector<Point>());
 }
 const string getgametitle(int id){
 	switch(id){
@@ -30,6 +33,8 @@ const string getgametitle(int id){
 		return "Level 3";
 	case 4:
 		return "Level 4";
+	case 5:
+		return "Level 5";
 	}
 	return string();
 }
@@ -38,14 +43,12 @@ void destroy(pair<vector<Laser *>,vector<Point>> &tmp){
 		delete tmp.first[i];
 	}
 }
-pair<vector<Laser *>,vector<Point>> gamemapdata;
+leveldata gameMapdata;
 int main(){
 	int nowid=1;
 	double usetime=0;
 	for(;nowid<=maxlevel;++nowid){
-		gamemapdata=getgamedata(nowid);
-		usetime+=gamemain(gamemapdata.first,gamemapdata.second,MapLength[nowid],getgametitle(nowid));
-//		destroy(gamemapdata);
+		usetime+=gamemain(getgamedata(nowid));
 	}
 	init();
 	setcaption("happy!");

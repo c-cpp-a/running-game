@@ -15,29 +15,33 @@ void init(){
 void showtext(float x,float y,const string &s){
 	outtextxy(x-textwidth(s.c_str())/2.0,y-textheight(s.c_str())/2.0,s.c_str());
 }
-double gamemain(vector<Laser *> &lasers,vector<Point> &points,const int &Maplength,const string &title){
+//double gamemain(vector<Laser *> &lasers,vector<Point> &points,const int &Maplength,const string &title){
+double gamemain(leveldata data){
 	Player player;
+	int bsx=Map::basex,bsy=Map::basey;
 	init();
-	setcaption(title.c_str());
+	setcaption(data.levelname.c_str());
 	clock_t beg=clock();
-	for(;is_run() && player.cgetpos().x<Maplength;delay_fps(Map::Gamefps)){
+	for(;is_run() && player.cgetpos().x<data.MapLength;delay_fps(Map::Gamefps)){
 		cleardevice();
-		for(auto &it:lasers){
+		for(auto &it:data.lasers){
 			if(Map::inMap(it->cgetpos())){
 				it->show(player,RED);
 				if(it->hit(player)){
 					player=Player();
-					Map::basex=Map::basey=0;
+					Map::basex=bsx;
+					Map::basey=bsy;
 				}
 			}
 			
 		}
-		for(auto &point:points){
+		for(auto &point:data.points){
 			if(Map::inMap(point.cgetpos())){
 				point.show(WHITESMOKE);
 				if(point.hit(player)){
 					player=Player();
-					Map::basex=Map::basey=0;
+					Map::basex=bsx;
+					Map::basey=bsy;
 				}
 			}
 		}
@@ -45,11 +49,16 @@ double gamemain(vector<Laser *> &lasers,vector<Point> &points,const int &Mapleng
 		setcolor(WHITE);
 		outtextxy(10.0,10.0,(to_string((1.0*clock()-beg)/CLOCKS_PER_SEC)+"s").c_str());
 		key_msg msg;
+//		while(kbmsg()){
+//			msg=getkey();
+//			player.move(msg);
+//		}
 		while(kbmsg()){
 			msg=getkey();
 			player.move(msg);
 		}
-		for(auto &it:lasers){
+//		flushkey();
+		for(auto &it:data.lasers){
 			it->update();
 		}
 	}

@@ -22,27 +22,18 @@ namespace Level2{
 		Point(makepoint(800,400),30),
 		Point(makepoint(900,400),35)
 	};
-	pair<vector<Laser *>,vector<Point>> getgamedata(){
-		vector<Laser *> lasers;
-#define REGISTERLASER(X) \
-		for(auto &sth:X){\
-		lasers.push_back(&sth);\
-		}
-		
-		REGISTERLASER(rotatelasers);
-		REGISTERLASER(seglasers);
-		REGISTERLASER(reallasers);
-		
-#undef REGISTERLASER
-		return make_pair(lasers,points);
+	leveldata getgamedata(){
+		leveldata res=makelevel("Level 2",3700,vector<Laser *>(),points);
+		registers(res.lasers,rotatelasers);
+		registers(res.lasers,seglasers);
+		registers(res.lasers,reallasers);
+		return res;
 	}
 }
 #include "runner.h"
-
 #ifndef __NO_RUNNING__
 int main(){
-	auto tmp=Level2::getgamedata();
-	gamemain(tmp.first,tmp.second,3700,"Level 2");
+	gamemain(Level2::getgamedata());
 	return 0;
 }
 #endif

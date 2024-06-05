@@ -31,26 +31,18 @@ namespace Level3{
 	vector<Point> points={
 		
 	};
-	pair<vector<Laser *>,vector<Point>> getgamedata(){
-		vector<Laser *> lasers;
-#define REGISTERLASER(X) \
-		for(auto &sth:X){\
-		lasers.push_back(&sth);\
-		}
-		
-		REGISTERLASER(rotatelasers);
-		REGISTERLASER(seglasers);
-		REGISTERLASER(reallasers);
-		
-#undef REGISTERLASER
-		return make_pair(lasers,points);
+	leveldata getgamedata(){
+		leveldata res=makelevel("Level 3",3000,vector<Laser *>(),points);
+		registers(res.lasers,rotatelasers);
+		registers(res.lasers,seglasers);
+		registers(res.lasers,reallasers);
+		return res;
 	}
 }
 #include "runner.h"
 #ifndef __NO_RUNNING__
 int main(){
-	auto tmp=Level3::getgamedata();
-	gamemain(tmp.first,tmp.second,3000,"Level 3");
+	gamemain(Level3::getgamedata());
 	return 0;
 }
 #endif

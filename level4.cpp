@@ -31,27 +31,19 @@ namespace Level4{
 	};
 	vector<Point> points={
 	};
-	pair<vector<Laser *>,vector<Point>> getgamedata(){
-		vector<Laser *> lasers;
-#define REGISTERLASER(X) \
-		for(auto &sth:X){\
-		lasers.push_back(&sth);\
-		}
-		
-		REGISTERLASER(rotatelasers);
-		REGISTERLASER(seglasers);
-		REGISTERLASER(reallasers);
-		REGISTERLASER(moveseglasers);
-		
-#undef REGISTERLASER
-		return make_pair(lasers,Level4::points);
+	leveldata getgamedata(){
+		leveldata res=makelevel("Level 4",3000,vector<Laser *>(),points);
+		registers(res.lasers,rotatelasers);
+		registers(res.lasers,seglasers);
+		registers(res.lasers,reallasers);
+		registers(res.lasers,moveseglasers);
+		return res;
 	}
 }
 #include "runner.h"
 #ifndef __NO_RUNNING__
 int main(){
-	auto tmp=Level4::getgamedata();
-	gamemain(tmp.first,tmp.second,3000,"Level 4");
+	gamemain(Level4::getgamedata());
 	return 0;
 }
 #endif
