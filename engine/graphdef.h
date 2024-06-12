@@ -3,12 +3,12 @@
 #include<cmath>
 static constexpr const double _G_PI=3.1415926535897932384626433832795l;
 double tocircle(const double &x){
-	static constexpr const double PI2=2*3.1415926535897932384626433832795l;
+	static constexpr const double PI2=2*_G_PI;
 	double tmp=x;
-	while(abs(tmp)>_G_PI){
-		tmp-=PI2;
+	while(fabs(tmp)>_G_PI){
+		if(tmp>0)	tmp-=PI2;
+		else	tmp+=PI2;
 	}
-	tmp=fmod(tmp,_G_PI);
 	if(tmp<0)	return PI2+tmp;
 	return tmp;
 }

@@ -28,7 +28,9 @@ int main(){
 	int nowid=1;
 	double usetime=0;
 	for(;nowid<=maxlevel;++nowid){
-		usetime+=gamemain(getgamedata(nowid));
+		gameMapdata=getgamedata(nowid);
+		usetime+=gamemain(gameMapdata);
+		Map::basex=Map::basey=0;
 	}
 	init();
 	setcaption("happy!");

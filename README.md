@@ -14,6 +14,49 @@ ege做的一个跑酷游戏
 - 你需要躲过红色的激光和白色的球，到达终点。
 - 本游戏没有边界限制！发挥自己的想象力去设计行动路线吧！只要横坐标大于等于关卡长度即可通关！
 - 当你遇到困境时，试一试重开再来一遍。
+## 使用自定义结构体说明
+- 如果你不想编写关卡，可以跳过此节。
+- 使用的结构体都定义在 `./engine/graphdef.h` 中。
+### point_t
+- 定义
+```cpp
+struct point_t{
+	double x,y;//相对于屏幕左上角的横坐标(x)偏移量和纵坐标(y)偏移量
+};
+```
+用于描述一个点的位置。
+- 构造方式
+可以直接构造 `point_t({x,y})`，也可以使用 `makepoint(x,y)` 来构造，两种方法是等价的。
+### line_t
+- 定义
+```cpp
+struct line_t{
+	//一条射线
+	point_t pos;//起点坐标
+	double direct;//方向（与x轴负方向夹角，大于pi弧度可以用(-0,-pi)描述，也可以继续使用(pi,2*pi)描述）
+};
+```
+用于描述一条射线的位置。
+- 构造方式
+可以直接构造（类似 `point_t`），也可以使用 `makeline(pos,direct)` 来构造，两种方法是等价的。
+## 障碍物说明
+- 无特殊说明，参数均按照以下单位：位置的单位是像素；角度的单位是弧度（提供 `degtorad` 进行角度-弧度转换）。
+### Point
+- 外观是一个球，有着圆形的判定区。
+- 构造方式 `Point(const point_t &_pos,int _r)`，分别是圆心位置和半径。
+### Laser
+- 一个射线激光，判定只有红色部分。
+- 构造方式 `Laser(const line_t &_line)`，为射线的描述（起始坐标和方向）。
+### SegLaser
+- 一个线段激光，判定区为线段部分。
+- 构造方式 `SegLaser(const line_t &_line,const double &l)`，分别是射线的描述（起始坐标和方向），以及延伸的长度。
+- 构造方式类似于极坐标系，带来的不便见谅。
+### MoveSegLaser
+- 会移动的线段激光，随着时间在两处间移动。
+- 构造方式 `MoveSegLaser(const line_t &line,const double &length,const point_t &_beg,const point_t &_end,double _d)`，分别是和 `SegLaser` 一样的两个参数（作用相同）、起始坐标移动起点、起始坐标移动终点、每秒起始坐标移动距离。
+### RotateLaser
+- 会旋转的激光，随着时间在一个角度区间中旋转。
+- 构造方式 `RotateLaser(const line_t &_line,double _b,double _e,double _d)`，分别是射线的描述（起始坐标和方向）、延伸的长度、角度的区间上下界、每秒旋转弧度。
 ## 关卡编写说明
 - 你可能想自己写一个关卡。下面可以帮助你编写一个关卡。
 ```cpp

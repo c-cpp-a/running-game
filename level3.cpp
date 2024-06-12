@@ -9,7 +9,7 @@ namespace Level3{
 		RotateLaser(makeline(400,400,degtorad(0.1)),degtorad(0),degtorad(0),degtorad(11)),
 		RotateLaser(makeline(400,400,degtorad(0.1)),degtorad(0),degtorad(0),degtorad(13)),
 		RotateLaser(makeline(400,400,degtorad(0.1)),degtorad(0),degtorad(0),degtorad(23)),
-		RotateLaser(makeline(700,0,degtorad(-180)),degtorad(-91),degtorad(-180),degtorad(3)),
+		RotateLaser(makeline(700,0,degtorad(180)),degtorad(-91),degtorad(180),degtorad(3)),
 		RotateLaser(makeline(700,800,degtorad(90)),degtorad(89),degtorad(181),degtorad(8)),
 		RotateLaser(makeline(2000,400,degtorad(120)),degtorad(120),degtorad(-120),degtorad(15)),
 		RotateLaser(makeline(2200,700,degtorad(80)),degtorad(80),degtorad(110),degtorad(1)),
