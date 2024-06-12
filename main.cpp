@@ -21,27 +21,7 @@ leveldata getgamedata(int id){
 	case 5:
 		return Level5::getgamedata();
 	}
-	return makelevel("default",0,vector<Laser *>(),vector<Point>());
-}
-const string getgametitle(int id){
-	switch(id){
-	case 1:
-		return "Level 1";
-	case 2:
-		return "Level 2";
-	case 3:
-		return "Level 3";
-	case 4:
-		return "Level 4";
-	case 5:
-		return "Level 5";
-	}
-	return string();
-}
-void destroy(pair<vector<Laser *>,vector<Point>> &tmp){
-	for(int i=0,siz=tmp.first.size();i<siz;i++){
-		delete tmp.first[i];
-	}
+	return defaultdata;
 }
 leveldata gameMapdata;
 int main(){

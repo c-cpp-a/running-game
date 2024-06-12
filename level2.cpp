@@ -1,4 +1,6 @@
+#include<vector>
 #include "engine.h"
+using std::vector;
 namespace Level2{
 	vector<RotateLaser> rotatelasers={
 		RotateLaser(makeline(600,350,degtorad(90)),degtorad(90),degtorad(-90),degtorad(20)),
